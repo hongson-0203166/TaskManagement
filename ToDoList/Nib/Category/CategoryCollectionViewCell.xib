@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="CategoryCollectionViewCell" customModule="ToDoList" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="63" height="98"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="63" height="98"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tuh-8X-HxA">
+                        <rect key="frame" x="0.0" y="0.0" width="63" height="98"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Grocery" translatesAutoresizingMaskIntoConstraints="NO" id="zNv-6A-uk2">
+                                <rect key="frame" x="-0.66666666666666785" y="0.0" width="64.333333333333329" height="64"/>
+                                <color key="backgroundColor" systemColor="systemGreenColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="64" id="4Bh-68-RRt"/>
+                                    <constraint firstAttribute="height" constant="64" id="BnD-Nu-05V"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Grocery" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qZO-je-aKS">
+                                <rect key="frame" x="0.0" y="64" width="63" height="24"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="qZO-je-aKS" firstAttribute="leading" secondItem="tuh-8X-HxA" secondAttribute="leading" id="29h-HJ-X37"/>
+                            <constraint firstItem="zNv-6A-uk2" firstAttribute="centerX" secondItem="tuh-8X-HxA" secondAttribute="centerX" id="6pp-B2-HgQ"/>
+                            <constraint firstItem="zNv-6A-uk2" firstAttribute="top" secondItem="tuh-8X-HxA" secondAttribute="top" id="XVs-hF-2vK"/>
+                            <constraint firstAttribute="trailing" secondItem="qZO-je-aKS" secondAttribute="trailing" id="gCM-fo-fgk"/>
+                            <constraint firstItem="qZO-je-aKS" firstAttribute="top" secondItem="zNv-6A-uk2" secondAttribute="bottom" id="gPz-IR-dxc"/>
+                            <constraint firstAttribute="bottom" secondItem="qZO-je-aKS" secondAttribute="bottom" constant="10" id="ppE-nt-gCc"/>
+                        </constraints>
+                    </view>
+                </subviews>
+            </view>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="tuh-8X-HxA" secondAttribute="bottom" id="7h1-BN-u0g"/>
+                <constraint firstItem="tuh-8X-HxA" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="Bx6-4O-Z0e"/>
+                <constraint firstAttribute="trailing" secondItem="tuh-8X-HxA" secondAttribute="trailing" id="t0F-ar-1M3"/>
+                <constraint firstItem="tuh-8X-HxA" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="t8S-Rh-u1z"/>
+            </constraints>
+            <size key="customSize" width="63" height="98"/>
+            <connections>
+                <outlet property="CategoryImageView" destination="zNv-6A-uk2" id="4dl-7M-Q5K"/>
+                <outlet property="categoryNameLable" destination="qZO-je-aKS" id="Cp2-gP-kGe"/>
+            </connections>
+            <point key="canvasLocation" x="139.69465648854961" y="5.6338028169014089"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="Grocery" width="32" height="32"/>
+        <systemColor name="systemGreenColor">
+            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

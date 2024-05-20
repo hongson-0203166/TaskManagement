@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  CalendarViewController.swift
 //  ToDoList
 //
 //  Created by Phạm Hồng Sơn on 08/05/2024.
@@ -7,13 +7,11 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class CalendarViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+
+        title = "Calendar"
     }
-
-
 }
-
