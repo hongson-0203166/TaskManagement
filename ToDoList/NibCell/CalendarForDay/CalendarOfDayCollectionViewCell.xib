@@ -1,21 +1,75 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13142" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12042"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="CalendarOfDayCollectionViewCell" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="CalendarOfDayCollectionViewCell" customModule="ToDoList" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="53" height="79"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
-                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                <rect key="frame" x="0.0" y="0.0" width="53" height="79"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ePU-CV-9Ym">
+                        <rect key="frame" x="0.0" y="0.0" width="53" height="79"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="WED" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1yL-fM-adn">
+                                <rect key="frame" x="4.6666666666666679" y="4" width="44" height="24"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="0.87" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="9" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A1e-3z-fTq" userLabel="9">
+                                <rect key="frame" x="20.333333333333332" y="36" width="12.333333333333332" height="24"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="0.87" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tn6-7i-bXT">
+                                <rect key="frame" x="23.666666666666668" y="63" width="6" height="6"/>
+                                <color key="backgroundColor" red="0.52549019610000003" green="0.52941176469999995" blue="0.90588235289999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="6" id="5NP-kY-dZ2"/>
+                                    <constraint firstAttribute="width" constant="6" id="Mcd-J0-eY9"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="0.067958195449542291" green="0.15760817338822386" blue="0.20301550626754761" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="tn6-7i-bXT" firstAttribute="top" secondItem="A1e-3z-fTq" secondAttribute="bottom" constant="3" id="EEv-j3-Cuj"/>
+                            <constraint firstItem="1yL-fM-adn" firstAttribute="top" secondItem="ePU-CV-9Ym" secondAttribute="top" constant="4" id="H9r-WB-76w"/>
+                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="tn6-7i-bXT" secondAttribute="bottom" constant="4" id="Jc8-bQ-GeE"/>
+                            <constraint firstItem="A1e-3z-fTq" firstAttribute="centerX" secondItem="ePU-CV-9Ym" secondAttribute="centerX" id="LFs-Pi-fu6"/>
+                            <constraint firstItem="tn6-7i-bXT" firstAttribute="centerX" secondItem="ePU-CV-9Ym" secondAttribute="centerX" id="oHN-am-xgZ"/>
+                            <constraint firstItem="1yL-fM-adn" firstAttribute="centerX" secondItem="ePU-CV-9Ym" secondAttribute="centerX" id="rEL-Sy-Wee"/>
+                            <constraint firstItem="A1e-3z-fTq" firstAttribute="top" secondItem="1yL-fM-adn" secondAttribute="bottom" constant="8" id="tcH-YE-8rX"/>
+                        </constraints>
+                    </view>
+                </subviews>
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <constraints>
+                <constraint firstItem="ePU-CV-9Ym" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="0jh-Ut-sJh"/>
+                <constraint firstItem="ePU-CV-9Ym" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="R8K-ry-ZOm"/>
+                <constraint firstAttribute="trailing" secondItem="ePU-CV-9Ym" secondAttribute="trailing" id="aXA-0K-4r0"/>
+                <constraint firstAttribute="bottom" secondItem="ePU-CV-9Ym" secondAttribute="bottom" id="dH2-pP-jVc"/>
+                <constraint firstItem="ePU-CV-9Ym" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="lHd-0w-anu"/>
+                <constraint firstItem="ePU-CV-9Ym" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="rEe-vz-JE7"/>
+            </constraints>
+            <size key="customSize" width="53" height="79"/>
+            <connections>
+                <outlet property="backgroundUIView" destination="ePU-CV-9Ym" id="p1t-tT-nSU"/>
+                <outlet property="dayNumberLabel" destination="A1e-3z-fTq" id="F7r-sH-xUN"/>
+                <outlet property="dotView" destination="tn6-7i-bXT" id="WgP-pj-eCG"/>
+                <outlet property="weekdayLable" destination="1yL-fM-adn" id="Dbm-iY-WSf"/>
+            </connections>
+            <point key="canvasLocation" x="133.58778625954199" y="-1.0563380281690142"/>
         </collectionViewCell>
     </objects>
 </document>

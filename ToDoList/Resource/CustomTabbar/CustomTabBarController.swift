@@ -51,13 +51,13 @@ class CustomTabBarController: UITabBarController,BlurVCDelegate {
         
         
         // Create TabBar items
-        homeNav.tabBarItem = UITabBarItem(title: "Index", image: UIImage(named: "home"), selectedImage: UIImage(named: "home"))
+        homeNav.tabBarItem = UITabBarItem(title: "Home", image: UIImage(named: "home"), selectedImage: UIImage(named: "home"))
         
         calendarNav.tabBarItem = UITabBarItem(title: "Calendar", image: UIImage(named: "calendar"), selectedImage: UIImage(named: "calendar"))
         
         newPostVC.tabBarItem = UITabBarItem(title: nil, image: nil, selectedImage: nil)
         
-        FocusNav.tabBarItem = UITabBarItem(title: "Focuse", image: UIImage(named: "clock"), selectedImage: UIImage(named: "clock"))
+        FocusNav.tabBarItem = UITabBarItem(title: "Notifications", image: UIImage(systemName: "bell"), selectedImage: UIImage(systemName: "bell"))
         
         profiletNav.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(named: "user"), selectedImage: UIImage(named: "user"))
         
@@ -72,7 +72,6 @@ class CustomTabBarController: UITabBarController,BlurVCDelegate {
         tabBar.didTapButton = { [unowned self] in
             self.routeToCreateNewAd()
         }
-        
     }
     
     func routeToCreateNewAd() {
@@ -81,7 +80,6 @@ class CustomTabBarController: UITabBarController,BlurVCDelegate {
         newPostVC?.modalPresentationStyle = .custom
         present(newPostVC ?? UIViewController(), animated: true, completion: nil)
             
-
             setBlurView()
         newPostVC?.delegatee = self
     }

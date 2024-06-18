@@ -21,7 +21,11 @@ class CalendarDayCVC: UICollectionViewCell {
         backgroundUIView.layer.masksToBounds = true
         let blueColor = UIColor(named: "BlueColor") ?? UIColor.blue
         let lightBlueColor = UIColor(named: "LightBlueColor") ?? UIColor.systemBlue
+        
+        
         let today = calendarDate.date.isEqual(Date.now)
+        
+        
         let available = calendarDate.available && calendarDate.calendarMonth == .Current
         
         
@@ -34,7 +38,6 @@ class CalendarDayCVC: UICollectionViewCell {
         
         backgroundUIView.backgroundColor = backgroundColor
         
-//        selected ? today ? blueColor : lightBlueColor : UIColor.clear
         dayNumberLabel.font = UIFont.systemFont(ofSize: 17, weight: .medium)
     }
 }

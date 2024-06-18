@@ -90,6 +90,7 @@ class DateService {
         if isInMinDate() == false { date = date.decreaseMonth() }
     }
     
+    
     func goNextMonth() {
         if isInMaxDate() == false { date = date.increaseMonth() }
     }
@@ -115,6 +116,9 @@ class DateService {
         return CalendarDate(date: dateOfIndex, calendarMonth: calendarMonth, available: available)
     }
     
+
+    
+    
     func daySelected(_ indexPath: IndexPath) -> Date? {
         let calendarDate = getCalendarDate(indexPath)
         var selectedDate = date
@@ -124,12 +128,43 @@ class DateService {
             selectedDate = selectedDate.increaseMonth()
         }
         selectedDate = selectedDate.updateComponent(.day, calendarDate.date.day())
+        
+        // Ensure that selectedDate is not before the current date
+        let currentDate = Date()
+        print("currentDate: \(currentDate)")
+        if selectedDate.isBefore(currentDate) {
+            return nil
+        }
+        
         if updateDate(selectedDate) ?? false {
             return selectedDate
         }
         return nil
     }
-    
+
+    func daySelected1(_ indexPath: IndexPath) -> Date? {
+        let calendarDate = getCalendarDate(indexPath)
+        var selectedDate = date
+        if calendarDate.calendarMonth == .Last {
+            selectedDate = selectedDate.decreaseMonth()
+        } else if calendarDate.calendarMonth == .Next {
+            selectedDate = selectedDate.increaseMonth()
+        }
+        selectedDate = selectedDate.updateComponent(.day, calendarDate.date.day())
+        
+//        // Ensure that selectedDate is not before the current date
+//        let currentDate = Date()
+//        print("currentDate: \(currentDate)")
+//        if selectedDate.isBefore(currentDate) {
+//            return nil
+//        }
+        
+        if updateDate(selectedDate) ?? false {
+            return selectedDate
+        }
+        return nil
+    }
+
     func pickerValueChanged(_ row: Int, _ component: Int) {
         if component == 0 {
             guard let month = Date.months.firstIndex(of: monthsForPicker[row]) else { return }
@@ -147,4 +182,75 @@ class DateService {
             }
         }
     }
+    
+    
+//    func getDaysAndWeekdaysInMonth(monthStr: String, year: Int) -> [(day: Int, weekday: String)] {
+//        
+//        
+//          var daysAndWeekdays: [(day: Int, weekday: String)] = []
+//          let calendar = Calendar.current
+//          let dateComponents = DateComponents(year: year, month: month)
+//          let date = calendar.date(from: dateComponents)!
+//          let range = calendar.range(of: .day, in: .month, for: date)!
+//          
+//          let dateFormatter = DateFormatter()
+//          dateFormatter.dateFormat = "EEEE" // Full name of the day of the week
+//          
+//          for day in range {
+//              if let date = calendar.date(from: DateComponents(year: year, month: month, day: day)) {
+//                  let weekday = dateFormatter.string(from: date)
+//                  daysAndWeekdays.append((day, weekday))
+//              }
+//          }
+//          
+//          return daysAndWeekdays
+//      }
+    
+    func getDaysAndWeekdaysInMonth(month: String, year: Int) -> [(day: Int, weekday: String)] {
+        var daysAndWeekdays: [(day: Int, weekday: String)] = []
+        let calendar = Calendar.current
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMMM" // Full name of the month
+        dateFormatter.locale = Locale(identifier: "en_US") // Set locale to ensure consistent month names
+        
+        // Define a mapping between month names (in uppercase) and their numeric representations
+        let monthNameToNumber: [String: Int] = [
+            "JANUARY": 1,
+            "FEBRUARY": 2,
+            "MARCH": 3,
+            "APRIL": 4,
+            "MAY": 5,
+            "JUNE": 6,
+            "JULY": 7,
+            "AUGUST": 8,
+            "SEPTEMBER": 9,
+            "OCTOBER": 10,
+            "NOVEMBER": 11,
+            "DECEMBER": 12
+        ]
+        
+        // Convert the input month string to uppercase
+        let uppercasedMonth = month.uppercased()
+        
+        if let monthNumber = monthNameToNumber[uppercasedMonth],
+           let date = calendar.date(from: DateComponents(year: year, month: monthNumber)) {
+            
+            let range = calendar.range(of: .day, in: .month, for: date)!
+            
+            let dayFormatter = DateFormatter()
+            dayFormatter.dateFormat = "EEEE" // Full name of the day of the week
+            
+            for day in range {
+                if let dayDate = calendar.date(from: DateComponents(year: year, month: monthNumber, day: day)) {
+                    let weekday = dayFormatter.string(from: dayDate)
+                    daysAndWeekdays.append((day, weekday))
+                }
+            }
+        } else {
+            print("Invalid month string: \(month)")
+        }
+        
+        return daysAndWeekdays
+    }
+
 }

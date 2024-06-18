@@ -24,7 +24,7 @@ class TaskTableViewCell: UITableViewCell {
     @IBOutlet weak var imageStatus: UIImageView!
     
     
-    var buttonAction: (() -> Void)?
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -40,7 +40,4 @@ class TaskTableViewCell: UITableViewCell {
        
     }
     
-    @IBAction func actionHandle(_ sender: Any) {
-        buttonAction?()
-    }
 }

@@ -59,7 +59,14 @@ extension Date {
         let weekday = components().weekday ?? 1
         return weekday == 1 ? 7 : weekday - 1
     }
-    
+//    func weekday() -> String {
+//        let weekdayString = components().weekday ?? 1
+//        let weekdaySymbols = DateFormatter().weekdaySymbols
+//        let index = weekdayString == 1 ? 6 : weekdayString - 2
+//        let weekdayAbbreviation = weekdaySymbols[index].prefix(3)
+//        return String(weekdayAbbreviation)
+//    }
+
     func firstWeekday() -> Int {
         return self.updateComponent(.day, 1).weekday()
     }

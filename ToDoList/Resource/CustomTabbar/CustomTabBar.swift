@@ -1,8 +1,7 @@
 //
-//  CustomTabBar.swift
-//  CustomTabBar
 //
-//  Created by Keihan Kamangar on 2021-06-07.
+//
+//
 //
 
 import UIKit

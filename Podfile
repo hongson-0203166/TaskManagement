@@ -8,7 +8,15 @@ target 'ToDoList' do
   # Pods for ToDoList
   pod 'SwiftHEXColors'
   pod 'SnapKit'
-#  pod 'CalendarView'
+  pod 'FirebaseAnalytics'
+  pod 'FirebaseAuth'
+  pod 'FirebaseFirestore'
+  pod 'ReachabilitySwift'
+  pod 'Alamofire'
+  pod 'FirebaseStorage'
+  pod 'Kingfisher'
+  pod 'GoogleSignIn'
+  
 end
 post_install do |installer|
     installer.generated_projects.each do |project|

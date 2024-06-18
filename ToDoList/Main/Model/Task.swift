@@ -17,4 +17,6 @@ struct Task {
     var status: Bool
     var tag: String
     var title: String
+    var isdeleted: Bool
+    var reminderIdentifier: String?
 }

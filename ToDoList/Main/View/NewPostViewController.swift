@@ -9,12 +9,14 @@ import UIKit
 import SnapKit
 import SwiftHEXColors
 import CoreData
+import FirebaseFirestore
+
 
 protocol BlurVCDelegate: class {
     func removeBlurView()
 }
 
-class NewPostViewController: UIViewController {
+class NewPostViewController: UIViewController, UIGestureRecognizerDelegate {
     
     // MARK: - Outlets
     
@@ -23,26 +25,21 @@ class NewPostViewController: UIViewController {
     @IBOutlet weak var previousMonthButton: UIButton!
     @IBOutlet weak var nextMonthButton: UIButton!
     @IBOutlet weak private var monthAndYearButton: UIButton!
-    
     @IBOutlet weak var daysStackView: UIStackView!
     @IBOutlet weak private var calendarCV: UICollectionView!
     @IBOutlet weak var datePickerView: UIPickerView!
-    
     @IBOutlet weak var monthTitleLable: UILabel!
     @IBOutlet weak var yearTitleLable: UILabel!
     @IBOutlet weak var chooseTimeButton: UIButton!
-    
     @IBOutlet weak var timePickerView: UIDatePicker!
-    
     @IBOutlet weak var calendarView: UIView!
     @IBOutlet weak var inventoryView: UIView!
     @IBOutlet weak var titleCalendarView: UIView!
-    
     @IBOutlet weak var chooseTimeView: UIView!
     
+    
+    
     @IBOutlet weak var taskPriorityView: UIView!
-    
-    
     @IBOutlet weak var taskCollectionView: UICollectionView!
     
     //setBorder
@@ -73,6 +70,7 @@ class NewPostViewController: UIViewController {
     var dateService = DateService()
     var selectDateMode: Bool = false
     var selectTimerforTask: Date?
+    
     var selectCategoryforTask: String?
     var selectCategoryImageNameforTask: String?
     var selectCategoryColorforTask:String?
@@ -90,7 +88,7 @@ class NewPostViewController: UIViewController {
     weak var delegatee: BlurVCDelegate?
     
     var previousSelectedIndexPath: IndexPath?
-    
+    let db = Firestore.firestore()
     //MARK: - UI Constraint layout
     
     var accessoryView : UIView = {
@@ -202,6 +200,8 @@ class NewPostViewController: UIViewController {
         
         
         calendarCV.setup("CalendarDayCVC", CalendarDayFlowLayout())
+        
+        
         taskCollectionView.setup("PriorityCollectionViewCell", PriorityCollectionViewFlowLayout())
         categoryCollectionView.setup("CategoryCollectionViewCell", CategoryViewFlowLayout())
 
@@ -226,9 +226,10 @@ class NewPostViewController: UIViewController {
         
         
         
-//        let tapToDismiss = UITapGestureRecognizer(target: self, action: #selector(tapToDismiss))
-//        view.addGestureRecognizer(tapToDismiss)
-////
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapToDismiss(_:)))
+               tapGestureRecognizer.delegate = self
+               view.addGestureRecognizer(tapGestureRecognizer)
+//
         
         titleTextField.becomeFirstResponder()
         calendarView.isHidden = true
@@ -242,10 +243,13 @@ class NewPostViewController: UIViewController {
         tagButton.addTarget(self, action: #selector(choseCategory), for: .touchUpInside)
         sendButton.addTarget(self, action: #selector(createTask), for: .touchUpInside)
 //       print( "addCategory \(addCategory.isUserInteractionEnabled)")
-        
+        timePickerView.setValue(UIColor(hexString: "544F61"), forKeyPath: "textColor")
     }
    
-    // MARK: - Functions Date
+    
+
+
+   
     @objc func createTask(){
         print("select:  \(selectTimerforTask ?? Date())")
         print("select: " + (selectCategoryforTask ?? ""))
@@ -284,22 +288,42 @@ class NewPostViewController: UIViewController {
                
                 // 2.
                 let entity = NSEntityDescription.entity(forEntityName: "Tasks", in: managedContext)!
-                let task = NSManagedObject(entity: entity, insertInto: managedContext)
+                let task = NSManagedObject(entity: entity, insertInto: managedContext) as! Tasks
                 
                 // 3.
-
-                    task.setValue(title, forKey: "title")
-                    task.setValue(description, forKey: "descrip")
-                    task.setValue(selectPriorityforTask, forKey: "priority")
-                    task.setValue(false, forKey: "status")
-                    task.setValue(selectCategoryforTask, forKey: "tag")
-                    task.setValue(selectCategoryColorforTask, forKey: "colorCate")
-                    task.setValue(selectTimerforTask, forKey: "date")
-                    task.setValue(selectCategoryImageNameforTask, forKey: "imagecate")
-    
+                    task.id = task.objectID.uriRepresentation().absoluteString
+                    task.title = title
+                    task.descrip = description
+                    task.priority = selectPriorityforTask
+                    task.status = false
+                    task.tag = selectCategoryforTask
+                    task.colorCate = selectCategoryColorforTask
+                    task.date = selectTimerforTask
+                    task.imagecate = selectCategoryforTask
+                    task.lastUpdated = Date()
+                    task.isdeleted = false
                // 4
                do {
                  try managedContext.save()
+                   
+                   
+                   print("network is:\(NetworkMonitor.shared.isConnected)")
+                   
+                   print(task)
+                   if NetworkState.shared.isConnected()  {
+                       print("Network connected. Can sync with Firebase.")
+                       print(task)
+                       syncTaskToFirebase(task: task as! Tasks)
+                   }else{
+                       // Lưu hành động xóa vào SyncAction khi không có kết nối mạng
+                       let syncAction = SyncAction(context: managedContext)
+                       syncAction.actionType = "add"
+                       syncAction.taskId = task.id
+                       print(syncAction)
+                       try managedContext.save()
+                       print("Stored sync action for later")
+                   }
+                   NotificationCenter.default.post(name: .syncPendingActions, object: nil)
                    NotificationCenter.default.post(name: .taskUpdated, object: nil)
                    delegatee?.removeBlurView()
                    DispatchQueue.main.async {
@@ -308,6 +332,40 @@ class NewPostViewController: UIViewController {
                } catch let error as NSError {
                  print("Could not save. \(error), \(error.userInfo)")
                }
+    }
+    
+    
+    
+    func syncTaskToFirebase(task: Tasks) {
+        let db = Firestore.firestore()
+        let taskId = task.id
+        print("taskId for Firebase: \(taskId)")
+        let taskIdFirebase = taskId?.replacingOccurrences(of: "/", with: "_")
+        print("taskIdFirebase: \(taskIdFirebase)")
+//        x-coredata:___Tasks_tDD31DCFA-CE82-412D-85C8-14FAFEB36B882
+
+        let data: [String: Any] = [
+            "title": task.title ?? "",
+            "descrip": task.descrip ?? "",
+            "priority": task.priority ?? "",
+            "status": task.status,
+            "tag": task.tag ?? "",
+            "colorCate": task.colorCate ?? "",
+            "date": task.date ?? Date(),
+            "imagecate": task.imagecate ?? "",
+            "lastUpdated": task.lastUpdated ?? Date(),
+            "isdeleted": task.isdeleted ?? false
+        ]
+     
+
+        let email = (UserDefaults.standard.string(forKey: "email") ?? "").replacingSpecialCharacters()
+        db.collection("\(email)").document(taskIdFirebase ?? "").setData(data) { error in
+            if let error = error {
+                print("Error writing document: \(error)")
+            } else {
+                print("Document successfully written!")
+            }
+        }
     }
     
     @objc func choseDateAndTime(){
@@ -341,6 +399,8 @@ class NewPostViewController: UIViewController {
 //        view.bringSubviewToFront(categoryView)
     }
     
+    
+    // MARK: - Functions Date
     func reloadValues() {
         refreshTitle()
         refreshButtons()
@@ -361,9 +421,13 @@ class NewPostViewController: UIViewController {
     func checkSelectedDate() {
         if selectedDate?.isBefore(dateService.minDate) == true || selectedDate?.isAfter(dateService.maxDate) == true {
             selectedDate = nil
-            //selectedDateLabel.text = "Selected date: "
+           
         }
     }
+    
+    
+    
+    
     
     
     // MARK: - Actions Date
@@ -396,6 +460,7 @@ class NewPostViewController: UIViewController {
         datePickerView.isHidden = !selectDateMode
         if !selectDateMode { reloadValues() }
     }
+    
     
     @IBAction func cancelChooseDate(_ sender: Any) {
         calendarView.isHidden = true
@@ -431,27 +496,15 @@ class NewPostViewController: UIViewController {
     }
     
     @IBAction func saveChooseTime(_ sender: Any) {
-        
-            chooseTimeView.isHidden = true
-            accessoryView.alpha = 1
-
+        chooseTimeView.isHidden = true
+        accessoryView.alpha = 1
         var selectedTime = timePickerView.date
-        
-        
-//            let formatter = DateFormatter()
-//            formatter.dateFormat = "yyyy-MM-dd hh:mm a"
-//            let formattedTime = formatter.string(from: selectedTime)
-//        
-        
-            print("Selected time with AM/PM: \(selectedTime)")
-        
-             selectTimerforTask = selectedTime
-        
-        
-        
-            isEnableAllSubviews(enable: true)
-            titleTextField.becomeFirstResponder()
+        print("Selected time with AM/PM: \(selectedTime)")
+        isEnableAllSubviews(enable: true)
+        titleTextField.becomeFirstResponder()
         view.bringSubviewToFront(accessoryView)
+        
+        selectTimerforTask = selectedTime
     }
     
     @IBAction func cancelPriorityButton(_ sender: Any) {
@@ -466,6 +519,10 @@ class NewPostViewController: UIViewController {
         isEnableAllSubviews(enable: true)
         titleTextField.becomeFirstResponder()
         view.bringSubviewToFront(accessoryView)
+        if selectPriorityforTask == nil{
+            showAlertError(message: "Please select the priority")
+            return
+        }
     }
     
     @IBAction func addCategoryHandle(_ sender: Any) {
@@ -473,20 +530,59 @@ class NewPostViewController: UIViewController {
         isEnableAllSubviews(enable: true)
         accessoryView.alpha = 1
         view.bringSubviewToFront(accessoryView)
+        if selectCategoryforTask == nil{
+            showAlertError(message: "Please select the category")
+            return
+        }
+        
     }
     
     
     //--------------------------------------------------------------------------------
     //MARK: Event Keyboard
-    
     @objc func tapToDismiss(_ recognizer: UITapGestureRecognizer) {
-        if accessoryView.frame.maxY == view.frame.height && calendarView.isHidden == true && taskPriorityView.isHidden == true && categoryView.isHidden == true {
-            delegatee?.removeBlurView()
-            dismiss(animated: true, completion: nil)
-        }
-        titleTextField.resignFirstResponder()
-        }
-    
+           let location = recognizer.location(in: view)
+           
+           // Check if the touch was inside the categoryView
+           if !categoryView.isHidden {
+               // Hide the categoryView if it's visible and tapped
+               isEnableAllSubviews(enable: true)
+               categoryView.isHidden = true
+               
+               accessoryView.alpha = 1
+                   titleTextField.becomeFirstResponder()
+               view.bringSubviewToFront(accessoryView)
+               return
+           }
+           
+           // Checking if the touch was inside any of the views
+           if (!calendarView.isHidden && calendarView.frame.contains(location)) ||
+              (!taskPriorityView.isHidden && taskPriorityView.frame.contains(location)) {
+               return
+           }
+           
+           // All views are hidden or tap was outside their frames
+           if accessoryView.frame.maxY == view.frame.height && calendarView.isHidden && taskPriorityView.isHidden && categoryView.isHidden && chooseTimeView.isHidden {
+               delegatee?.removeBlurView()
+               dismiss(animated: true, completion: nil)
+           }
+           
+           titleTextField.resignFirstResponder()
+       }
+
+       // UIGestureRecognizerDelegate method
+       func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+           let location = touch.location(in: view)
+           
+           // Check if the touch is within any of the subviews
+           if (!calendarView.isHidden && calendarView.frame.contains(location)) ||
+              (!taskPriorityView.isHidden && taskPriorityView.frame.contains(location)) ||
+              (!categoryView.isHidden && categoryView.frame.contains(location)) ||
+              accessoryView.frame.contains(location) {
+               return false
+           }
+           return true
+       }
     
     
     @objc func tapResignKeyboard(){
@@ -519,13 +615,7 @@ class NewPostViewController: UIViewController {
         hourView.layer.cornerRadius = 4
         hourView.layer.masksToBounds = true
         
-        minuteView.layer.cornerRadius = 4
-        minuteView.layer.masksToBounds = true
-        
-        halfDayView.layer.cornerRadius = 4
-        halfDayView.layer.masksToBounds = true
-        
-        
+
         saveTimeButton.layer.cornerRadius = 8
         saveTimeButton.layer.masksToBounds = true
         
@@ -722,7 +812,7 @@ extension NewPostViewController: UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func showAlertError( message: String){
-        let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        let alert = UIAlertController(title: "Message", message: message, preferredStyle: .alert)
         let action = UIAlertAction(title: "Cancel", style: .cancel)
         alert.addAction(action)
         present(alert, animated: true)
@@ -764,5 +854,13 @@ extension NewPostViewController: UITextFieldDelegate{
     }
     func textFieldDidBeginEditing(_ textField: UITextField) {
         textField.becomeFirstResponder()
+    }
+}
+extension String {
+    func replacingSpecialCharacters(with replacement: String = "-") -> String {
+        let pattern = "[!@#$%^&*()\\[\\]{}<>?/\\\\:;\"|`~]"
+        let regex = try! NSRegularExpression(pattern: pattern, options: [])
+        let range = NSRange(location: 0, length: self.utf16.count)
+        return regex.stringByReplacingMatches(in: self, options: [], range: range, withTemplate: replacement)
     }
 }

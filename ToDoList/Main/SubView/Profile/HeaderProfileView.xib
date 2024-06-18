@@ -1,18 +1,53 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13142" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12042"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HeaderProfileView" customModule="ToDoList" customModuleProvider="target">
+            <connections>
+                <outlet property="contentView" destination="iN0-l3-epB" id="Fqx-Qo-Xw9"/>
+                <outlet property="fullNameProfile" destination="JTK-7J-I39" id="sDN-cX-VQJ"/>
+                <outlet property="profileImage" destination="sUI-QG-C8j" id="6aS-cb-mOi"/>
+            </connections>
+        </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <rect key="frame" x="0.0" y="0.0" width="529" height="274"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+            <subviews>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Mask group" translatesAutoresizingMaskIntoConstraints="NO" id="sUI-QG-C8j">
+                    <rect key="frame" x="164.66666666666663" y="10" width="200" height="200"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="sUI-QG-C8j" secondAttribute="height" multiplier="1:1" id="AJA-hW-FiE"/>
+                    </constraints>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Martha Hays" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JTK-7J-I39">
+                    <rect key="frame" x="207.66666666666663" y="220" width="114" height="10"/>
+                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="0.87" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="sUI-QG-C8j" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="9xR-Lm-ME7"/>
+                <constraint firstItem="sUI-QG-C8j" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="DcQ-GV-1YH"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="JTK-7J-I39" secondAttribute="bottom" constant="10" id="UBY-7y-mCJ"/>
+                <constraint firstItem="JTK-7J-I39" firstAttribute="top" secondItem="sUI-QG-C8j" secondAttribute="bottom" constant="10" id="k0W-Vc-Nfd"/>
+                <constraint firstItem="sUI-QG-C8j" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="0.378072" id="pCW-fm-aih"/>
+                <constraint firstItem="JTK-7J-I39" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="xwe-vf-GS0"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="234.35114503816794" y="-214.78873239436621"/>
         </view>
     </objects>
+    <resources>
+        <image name="Mask group" width="85" height="85"/>
+    </resources>
 </document>
