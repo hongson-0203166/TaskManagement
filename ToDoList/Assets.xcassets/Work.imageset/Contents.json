@@ -1,17 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "briefcase 1.svg",
+      "filename" : "portfolio.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "briefcase 1@2x.svg",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "briefcase 1@3x.svg",
       "idiom" : "universal",
       "scale" : "3x"
     }

@@ -1,17 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "heartbeat 1.svg",
+      "filename" : "Health.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "heartbeat 1@2x.svg",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "heartbeat 1@3x.svg",
       "idiom" : "universal",
       "scale" : "3x"
     }

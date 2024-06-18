@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EditTimeView" customModule="ToDoList" customModuleProvider="target">
+            <connections>
+                <outlet property="cancelChooseTime" destination="6z3-Ve-dNf" id="U2v-vU-pDf"/>
+                <outlet property="contentView" destination="iN0-l3-epB" id="gfG-ax-jEA"/>
+                <outlet property="editChooseTime" destination="btx-Sn-wLm" id="C9D-u3-bsj"/>
+                <outlet property="timeOfDatePiker" destination="i26-l9-SHz" id="ejb-yD-EcY"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="479" height="311"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choose Time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N8B-Xl-mzh">
+                    <rect key="frame" x="189.33333333333334" y="10" width="100.33333333333334" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="0.87" colorSpace="custom" customColorSpace="displayP3"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7Wm-BY-kUk" userLabel="lineview">
+                    <rect key="frame" x="8" y="41" width="463" height="1"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.87" colorSpace="custom" customColorSpace="displayP3"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="1" id="eW4-Wo-jgO"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WGd-zN-Egf">
+                    <rect key="frame" x="70" y="133.66666666666666" width="349" height="44"/>
+                    <color key="backgroundColor" red="0.15294117647058825" green="0.15294117647058825" blue="0.15294117647058825" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="44" id="Qzs-KQ-tFl"/>
+                    </constraints>
+                </view>
+                <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" style="wheels" translatesAutoresizingMaskIntoConstraints="NO" id="i26-l9-SHz">
+                    <rect key="frame" x="-260.66666666666669" y="74.666666666666686" width="1000.3333333333335" height="162"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <color key="tintColor" systemColor="systemRedColor"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="1000" id="Kwb-4C-ngK"/>
+                    </constraints>
+                    <locale key="locale" localeIdentifier="en"/>
+                </datePicker>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="btx-Sn-wLm">
+                    <rect key="frame" x="277.33333333333331" y="256" width="191.66666666666669" height="45"/>
+                    <color key="backgroundColor" red="0.52549019610000003" green="0.52941176469999995" blue="0.90588235289999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <inset key="contentEdgeInsets" minX="0.0" minY="12" maxX="0.0" maxY="12"/>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" title="Edit">
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="0.87" colorSpace="custom" customColorSpace="displayP3"/>
+                    </state>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6z3-Ve-dNf">
+                    <rect key="frame" x="20" y="263" width="75" height="42"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <inset key="contentEdgeInsets" minX="0.0" minY="12" maxX="0.0" maxY="12"/>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" title="Cancel">
+                        <color key="titleColor" red="0.52549019610000003" green="0.52941176469999995" blue="0.90588235289999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </state>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="0.21176470589999999" green="0.21176470589999999" blue="0.21176470589999999" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstItem="7Wm-BY-kUk" firstAttribute="top" secondItem="N8B-Xl-mzh" secondAttribute="bottom" constant="10" id="2aY-nH-NBo"/>
+                <constraint firstAttribute="trailing" secondItem="btx-Sn-wLm" secondAttribute="trailing" constant="10" id="9ms-Oh-jKE"/>
+                <constraint firstItem="6z3-Ve-dNf" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="Cmw-8C-Lih"/>
+                <constraint firstAttribute="trailing" secondItem="WGd-zN-Egf" secondAttribute="trailing" constant="60" id="FDZ-9e-CmB"/>
+                <constraint firstItem="i26-l9-SHz" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="GKy-4K-blH"/>
+                <constraint firstAttribute="trailing" secondItem="7Wm-BY-kUk" secondAttribute="trailing" constant="8" id="NEK-Wt-vk9"/>
+                <constraint firstItem="7Wm-BY-kUk" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="T9C-g1-KBX"/>
+                <constraint firstItem="btx-Sn-wLm" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="0.4" id="WQL-eJ-wFV"/>
+                <constraint firstItem="WGd-zN-Egf" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="70" id="bos-AQ-x21"/>
+                <constraint firstAttribute="bottom" secondItem="btx-Sn-wLm" secondAttribute="bottom" constant="10" id="bu1-S8-1AF"/>
+                <constraint firstItem="WGd-zN-Egf" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="cHn-Zs-MRB"/>
+                <constraint firstAttribute="bottom" secondItem="6z3-Ve-dNf" secondAttribute="bottom" constant="10" id="hUo-3H-ZJ4"/>
+                <constraint firstItem="N8B-Xl-mzh" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="jex-r1-liS"/>
+                <constraint firstItem="i26-l9-SHz" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="l3J-l5-AxK"/>
+                <constraint firstItem="6z3-Ve-dNf" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="0.4" id="rxb-gK-OJ5"/>
+                <constraint firstItem="N8B-Xl-mzh" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="uSG-j6-HG1"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="196.18320610687022" y="-201.7605633802817"/>
+        </view>
+    </objects>
+    <resources>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

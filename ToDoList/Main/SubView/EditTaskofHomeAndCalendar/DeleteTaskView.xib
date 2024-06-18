@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DeleteTaskView" customModule="ToDoList" customModuleProvider="target">
+            <connections>
+                <outlet property="accecptDeleteButton" destination="Ikk-q6-Us0" id="l52-kV-aSE"/>
+                <outlet property="cancelDeleteButton" destination="QSR-WB-CPl" id="6j8-Ui-6zD"/>
+                <outlet property="contentView" destination="iN0-l3-epB" id="Ed4-zh-dIj"/>
+                <outlet property="titleTaskLable" destination="e8J-0n-tAf" id="nQW-d1-M6b"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="565" height="217"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Delete Task" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bqY-aH-gb7">
+                    <rect key="frame" x="230.33333333333334" y="10" width="104.33333333333334" height="24"/>
+                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="0.87" colorSpace="custom" customColorSpace="displayP3"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RsO-j2-2XG" userLabel="lineView">
+                    <rect key="frame" x="8" y="44" width="549" height="1"/>
+                    <color key="backgroundColor" systemColor="systemGray3Color"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="1" id="1Ld-rm-0bV"/>
+                    </constraints>
+                </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Are You sure you want to delete this task?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MLu-uI-IuN">
+                    <rect key="frame" x="111" y="69" width="343" height="21.666666666666671"/>
+                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="0.87" colorSpace="custom" customColorSpace="displayP3"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Task title : Do math homework" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e8J-0n-tAf">
+                    <rect key="frame" x="158.33333333333331" y="94.666666666666671" width="248.33333333333331" height="21.666666666666671"/>
+                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="0.87" colorSpace="custom" customColorSpace="displayP3"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sxf-ag-Ndb">
+                    <rect key="frame" x="8" y="140.33333333333334" width="549" height="42"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QSR-WB-CPl">
+                            <rect key="frame" x="0.0" y="0.0" width="128" height="42"/>
+                            <inset key="contentEdgeInsets" minX="40" minY="12" maxX="40" maxY="12"/>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            <state key="normal" title="Cancel">
+                                <color key="titleColor" red="0.52549019610000003" green="0.52941176469999995" blue="0.90588235289999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ikk-q6-Us0">
+                            <rect key="frame" x="400" y="8" width="149" height="48"/>
+                            <color key="backgroundColor" red="0.52549019610000003" green="0.52941176469999995" blue="0.90588235289999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <inset key="contentEdgeInsets" minX="52" minY="12" maxX="52" maxY="12"/>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            <state key="normal" title="Delete">
+                                <color key="titleColor" red="1" green="1" blue="1" alpha="0.87" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="Ikk-q6-Us0" firstAttribute="top" secondItem="sxf-ag-Ndb" secondAttribute="top" id="4fV-RI-1Jz"/>
+                        <constraint firstItem="QSR-WB-CPl" firstAttribute="leading" secondItem="sxf-ag-Ndb" secondAttribute="leading" id="LgA-ad-cBH"/>
+                        <constraint firstAttribute="bottom" secondItem="Ikk-q6-Us0" secondAttribute="bottom" id="UN4-Uh-2H7"/>
+                        <constraint firstItem="QSR-WB-CPl" firstAttribute="top" secondItem="sxf-ag-Ndb" secondAttribute="top" id="WRf-Aj-WUG"/>
+                        <constraint firstAttribute="trailing" secondItem="Ikk-q6-Us0" secondAttribute="trailing" id="Wwp-Le-Svx"/>
+                        <constraint firstAttribute="bottom" secondItem="QSR-WB-CPl" secondAttribute="bottom" id="Y2c-Bs-VqY"/>
+                        <constraint firstItem="Ikk-q6-Us0" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="QSR-WB-CPl" secondAttribute="trailing" constant="20" id="mX5-0Y-pKe"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" red="0.21176470588235294" green="0.21176470588235294" blue="0.21176470588235294" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="sxf-ag-Ndb" firstAttribute="top" secondItem="e8J-0n-tAf" secondAttribute="bottom" constant="24" id="0AV-3L-yy7"/>
+                <constraint firstItem="RsO-j2-2XG" firstAttribute="top" secondItem="bqY-aH-gb7" secondAttribute="bottom" constant="10" id="D1u-4M-1fT"/>
+                <constraint firstItem="MLu-uI-IuN" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="Edi-KU-5oc"/>
+                <constraint firstItem="e8J-0n-tAf" firstAttribute="top" secondItem="MLu-uI-IuN" secondAttribute="bottom" constant="4" id="ItV-zJ-69g"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="RsO-j2-2XG" secondAttribute="trailing" constant="8" id="J86-bU-m7f"/>
+                <constraint firstItem="MLu-uI-IuN" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="9" id="L8K-zO-w1N"/>
+                <constraint firstItem="MLu-uI-IuN" firstAttribute="top" secondItem="RsO-j2-2XG" secondAttribute="bottom" constant="24" id="Sca-ll-JrG"/>
+                <constraint firstItem="e8J-0n-tAf" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="ZBS-it-S8z"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="MLu-uI-IuN" secondAttribute="trailing" constant="9" id="aU6-Qq-V8G"/>
+                <constraint firstItem="bqY-aH-gb7" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="dFt-ph-f3u"/>
+                <constraint firstItem="sxf-ag-Ndb" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="8" id="e6a-xT-Z4f"/>
+                <constraint firstItem="bqY-aH-gb7" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="goo-ZA-qgR"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="sxf-ag-Ndb" secondAttribute="trailing" constant="8" id="ha3-xo-S0v"/>
+                <constraint firstItem="RsO-j2-2XG" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="8" id="n5b-rj-gK6"/>
+                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="sxf-ag-Ndb" secondAttribute="bottom" constant="8" id="zeI-Ll-yuz"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="261.83206106870227" y="-236.26760563380282"/>
+        </view>
+    </objects>
+    <resources>
+        <systemColor name="systemGray3Color">
+            <color red="0.78039215689999997" green="0.78039215689999997" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

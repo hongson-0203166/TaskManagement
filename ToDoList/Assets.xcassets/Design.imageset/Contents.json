@@ -1,17 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "design (1) 1.svg",
+      "filename" : "ux-design.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "design (1) 1@2x.svg",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "design (1) 1@3x.svg",
       "idiom" : "universal",
       "scale" : "3x"
     }

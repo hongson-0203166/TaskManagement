@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EditTaskHeaderView" customModule="ToDoList" customModuleProvider="target">
+            <connections>
+                <outlet property="contentView" destination="iN0-l3-epB" id="Na9-FB-le3"/>
+                <outlet property="descriptionTaskLable" destination="o8H-1v-jDR" id="OmX-0e-qUt"/>
+                <outlet property="dissmissButton" destination="Rlv-pu-mxq" id="ifI-hj-D9g"/>
+                <outlet property="editReloadButton" destination="0Xx-za-drl" id="Y2j-oz-pF5"/>
+                <outlet property="editTitleAndDesButton" destination="zX3-62-ww9" id="7C1-wx-03M"/>
+                <outlet property="titleTaskLable" destination="uGP-ur-Pgj" id="pJD-Cr-l9E"/>
+                <outlet property="todoOrDoneButton" destination="bmB-13-O5M" id="y8r-FY-YBL"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="780" height="157"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bmB-13-O5M">
+                    <rect key="frame" x="0.0" y="63.666666666666657" width="40" height="30"/>
+                    <state key="normal" title="Button"/>
+                    <buttonConfiguration key="configuration" style="plain" image="circle"/>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Do Math Homework" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uGP-ur-Pgj">
+                    <rect key="frame" x="59.999999999999986" y="66.666666666666671" width="178.66666666666663" height="24"/>
+                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="0.87" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Do chapter 2 to 5 for next week" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o8H-1v-jDR">
+                    <rect key="frame" x="60.000000000000014" y="98.666666666666671" width="239.33333333333337" height="4.3333333333333286"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="0.87" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zX3-62-ww9">
+                    <rect key="frame" x="708" y="47.666666666666657" width="72" height="62"/>
+                    <state key="normal" title="Button"/>
+                    <buttonConfiguration key="configuration" style="plain" image="Group 239"/>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rlv-pu-mxq">
+                    <rect key="frame" x="0.0" y="0.0" width="48" height="38"/>
+                    <state key="normal" title="Button"/>
+                    <buttonConfiguration key="configuration" style="plain" image="add"/>
+                </button>
+                <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Xx-za-drl">
+                    <rect key="frame" x="724" y="0.0" width="48" height="38"/>
+                    <state key="normal" title="Button"/>
+                    <buttonConfiguration key="configuration" style="plain" image="repeat"/>
+                </button>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" red="0.071403063830000002" green="0.071403063830000002" blue="0.071403063830000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="o8H-1v-jDR" secondAttribute="bottom" constant="20" id="8sk-Hv-7to"/>
+                <constraint firstItem="bmB-13-O5M" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="Ata-av-t53"/>
+                <constraint firstItem="uGP-ur-Pgj" firstAttribute="leading" secondItem="bmB-13-O5M" secondAttribute="trailing" constant="20" id="PBf-KZ-oEd"/>
+                <constraint firstItem="Rlv-pu-mxq" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Qf1-6e-2zA"/>
+                <constraint firstItem="o8H-1v-jDR" firstAttribute="top" secondItem="uGP-ur-Pgj" secondAttribute="bottom" constant="8" id="ciu-tF-WFg"/>
+                <constraint firstItem="zX3-62-ww9" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="dR9-SD-35I"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="zX3-62-ww9" secondAttribute="trailing" id="eLR-RV-Zc1"/>
+                <constraint firstItem="bmB-13-O5M" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="gEx-l1-FbL"/>
+                <constraint firstItem="0Xx-za-drl" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="hpF-Cy-Qb2"/>
+                <constraint firstAttribute="trailing" secondItem="0Xx-za-drl" secondAttribute="trailing" constant="8" id="igE-KF-zUh"/>
+                <constraint firstItem="uGP-ur-Pgj" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="ka6-M7-ZTw"/>
+                <constraint firstItem="o8H-1v-jDR" firstAttribute="leading" secondItem="uGP-ur-Pgj" secondAttribute="leading" id="vBY-I9-b8e"/>
+                <constraint firstItem="Rlv-pu-mxq" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="wGd-aA-RHI"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="425.95419847328242" y="-257.3943661971831"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="Group 239" width="48" height="48"/>
+        <image name="add" width="24" height="24"/>
+        <image name="circle" width="16" height="16"/>
+        <image name="repeat" width="24" height="24"/>
+    </resources>
+</document>
