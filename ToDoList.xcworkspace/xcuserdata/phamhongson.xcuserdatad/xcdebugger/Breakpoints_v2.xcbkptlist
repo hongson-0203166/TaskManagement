@@ -2400,7 +2400,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "233"
             endingLineNumber = "233"
-            landmarkName = "showAlertError(message:)"
+            landmarkName = "registerHandle()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -3560,7 +3560,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "FED9A36E-168F-4D3D-9FD3-73CA53B5FF27"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ToDoList/Main/View/ProfileViewController.swift"
