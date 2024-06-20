@@ -13,8 +13,8 @@ class RegisterViewController: UIViewController {
     @IBOutlet weak var passwordTextFiedl: UITextField!
     @IBOutlet weak var confirmPasswordTextField: UITextField!
     @IBOutlet weak var registerButton: UIButton!
-    @IBOutlet weak var googleLoginButton: UIButton!
-    @IBOutlet weak var appleLoginButton: UIButton!
+    //@IBOutlet weak var googleLoginButton: UIButton!
+    //@IBOutlet weak var appleLoginButton: UIButton!
     @IBOutlet weak var backLoginButton: UIButton!
     
     override func viewDidLoad() {
@@ -53,16 +53,17 @@ class RegisterViewController: UIViewController {
                        }
                        return
                    }
+            UserDefaults.standard.setValue("email", forKey: "signInStyle")
             
-                   let changeRequest = user.createProfileChangeRequest()
-                   changeRequest.displayName = email
-                   changeRequest.commitChanges { error in
-                       if let error = error {
-                           print("Lỗi khi cập nhật displayName: \(error.localizedDescription)")
-                       } else {
-                           print("Cập nhật displayName thành công")
-                       }
-                   }
+//                   let changeRequest = user.createProfileChangeRequest()
+//                   changeRequest.displayName = email
+//                   changeRequest.commitChanges { error in
+//                       if let error = error {
+//                           print("Lỗi khi cập nhật displayName: \(error.localizedDescription)")
+//                       } else {
+//                           print("Cập nhật displayName thành công")
+//                       }
+//                   }
             self.navigationController?.dismiss(animated: true)
         }
     }
@@ -88,16 +89,18 @@ class RegisterViewController: UIViewController {
     func configureSetupView(){
         registerButton.layer.cornerRadius = 4
         registerButton.layer.masksToBounds = true
+        usernameTextField.keyboardAppearance = .dark
+        passwordTextFiedl.keyboardAppearance = .dark
+        confirmPasswordTextField.keyboardAppearance = .dark
+//        googleLoginButton.layer.cornerRadius = 4
+//        googleLoginButton.layer.masksToBounds = true
+//        googleLoginButton.layer.borderWidth = 1
+//        googleLoginButton.layer.borderColor = UIColor(hexString: "8875FF")?.cgColor
         
-        googleLoginButton.layer.cornerRadius = 4
-        googleLoginButton.layer.masksToBounds = true
-        googleLoginButton.layer.borderWidth = 1
-        googleLoginButton.layer.borderColor = UIColor(hexString: "8875FF")?.cgColor
-        
-        appleLoginButton.layer.cornerRadius = 4
-        appleLoginButton.layer.masksToBounds = true
-        appleLoginButton.layer.borderWidth = 1
-        appleLoginButton.layer.borderColor = UIColor(hexString: "8875FF")?.cgColor
+//        appleLoginButton.layer.cornerRadius = 4
+//        appleLoginButton.layer.masksToBounds = true
+//        appleLoginButton.layer.borderWidth = 1
+//        appleLoginButton.layer.borderColor = UIColor(hexString: "8875FF")?.cgColor
         
         
         
@@ -125,8 +128,8 @@ class RegisterViewController: UIViewController {
         //handle
         backLoginButton.addTarget(self, action: #selector(backToLogin), for: .touchUpInside)
         registerButton.addTarget(self, action: #selector(registerHandle), for: .touchUpInside)
-        googleLoginButton.addTarget(self, action: #selector(googleHandle), for: .touchUpInside)
-        appleLoginButton.addTarget(self, action: #selector(appleHandle), for: .touchUpInside)
+    //    googleLoginButton.addTarget(self, action: #selector(googleHandle), for: .touchUpInside)
+       // appleLoginButton.addTarget(self, action: #selector(appleHandle), for: .touchUpInside)
     }
    
 }

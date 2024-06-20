@@ -16,7 +16,7 @@ target 'ToDoList' do
   pod 'FirebaseStorage'
   pod 'Kingfisher'
   pod 'GoogleSignIn'
-  
+  pod 'JWTDecode'
 end
 post_install do |installer|
     installer.generated_projects.each do |project|

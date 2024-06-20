@@ -14,15 +14,16 @@ class HomeViewModel{
     var tasks: [Task] = []
       var completedTasks: [Task] = []
       var incompleteTasks: [Task] = []
-    var safeEmail = (UserDefaults.standard.string(forKey: "email") ?? "").replacingSpecialCharacters()
+   // var safeEmail = (UserDefaults.standard.string(forKey: "email") ?? "___").replacingSpecialCharacters()
+    //var safeEmail : String?
       let appDelegate = UIApplication.shared.delegate as? AppDelegate
       let context: NSManagedObjectContext
       
-      init() {
+    init() {
           context = appDelegate?.persistentContainer.viewContext ?? NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
           
-       
-                  self.tasks = fetchTasks()
+//        self.safeEmail  = (UserDefaults.standard.string(forKey: "email") ?? "").replacingSpecialCharacters()
+        self.tasks = self.fetchTasks()
               
         //  filterTask()
       }
@@ -30,18 +31,15 @@ class HomeViewModel{
     
     
     //MARK: - Fetch Tasks
-    func fetchTasks() -> [Task]{
+    func fetchTasks() -> [Task] {
         return fetchTasks1().filter { task in
             task.isdeleted == false
         }
     }
-    
+
     func fetchTasks1() -> [Task] {
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         let fetchRequest: NSFetchRequest<Tasks> = Tasks.fetchRequest()
-        
-        // Add a predicate to filter tasks where isdeleted is false
-      //  fetchRequest.predicate = NSPredicate(format: "isdeleted == %@", NSNumber(value: false))
         
         do {
             let fetchedTasks = try context.fetch(fetchRequest)
@@ -66,10 +64,13 @@ class HomeViewModel{
             return []
         }
     }
-    
+
+
     
     func fetchTasksFromFirebase(completion: @escaping ([Task]) -> Void) {
         let db = Firestore.firestore()
+        //print(safeEmail)
+        var safeEmail = (UserDefaults.standard.string(forKey: "email") ?? "___").replacingSpecialCharacters()
         db.collection("\(safeEmail)").getDocuments { (snapshot, error) in
             guard let documents = snapshot?.documents else {
                 print("No documents in Firebase")
@@ -78,11 +79,19 @@ class HomeViewModel{
             }
 
             var tasks: [Task] = []
-            print(documents)
+            var taskIds = Set<String>()
             
             for document in documents {
                 let data = document.data()
                 let id = document.documentID.replacingOccurrences(of: "_", with: "/")
+                
+                // Kiểm tra trùng lặp ID
+                if taskIds.contains(id) {
+                    print("Duplicate ID found in Firebase: \(id)")
+                    continue
+                }
+                taskIds.insert(id)
+                
                 let title = data["title"] as? String ?? ""
                 let descrip = data["descrip"] as? String ?? ""
                 let priority = data["priority"] as? String ?? ""
@@ -108,129 +117,165 @@ class HomeViewModel{
                 )
 
                 tasks.append(task)
-                
             }
-            print(tasks)
             
             completion(tasks)
         }
     }
+
     
     
     
     
-    func synchronizeTasks() {
-        let coreDataTasks = fetchTasks()
+    func synchronizeTasks(completion: @escaping ([Task]) -> Void) {
+        // Lấy dữ liệu từ Core Data
+        let coreDataTasks = fetchTasks1()
+        
+        // Lấy dữ liệu từ Firebase
         fetchTasksFromFirebase { firebaseTasks in
+            // Tạo từ điển để lưu trữ các task từ Core Data và Firebase
             var coreDataDict = Dictionary(uniqueKeysWithValues: coreDataTasks.map { ($0.id, $0) })
             var firebaseDict = Dictionary(uniqueKeysWithValues: firebaseTasks.map { ($0.id, $0) })
             
-            // Find and update the newer data or handle deletions
+            // Xử lý các ID trùng lặp và đồng bộ hóa
             for (id, firebaseTask) in firebaseDict {
                 if let coreDataTask = coreDataDict[id] {
                     if firebaseTask.isdeleted {
-                        // If the Firebase task is marked as deleted, update the local task
                         self.updateTaskInCoreData(firebaseTask)
                     } else if firebaseTask.lastUpdated > coreDataTask.lastUpdated {
                         self.updateTaskInCoreData(firebaseTask)
                     } else if firebaseTask.lastUpdated < coreDataTask.lastUpdated {
                         self.updateTaskInFirebase(coreDataTask)
                     }
+                    coreDataDict.removeValue(forKey: id) // Xóa khỏi từ điển để không lưu lại sau này
                 } else {
                     self.saveTaskToCoreData(firebaseTask)
                 }
             }
+            
+            // Lưu lại các task còn lại trong Core Data mà không có trong Firebase
+            for (id, coreDataTask) in coreDataDict {
+                self.saveTaskToFirebase(coreDataTask)
+            }
+            
+            // Đảm bảo không có bản ghi nào bị lặp trong Core Data
+            let updatedCoreDataTasks = self.fetchTasks1().filter { !$0.isdeleted }
+            completion(updatedCoreDataTasks)
+        }
+    }
+    func updateTaskInCoreData(_ task: Task) {
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        let fetchRequest: NSFetchRequest<Tasks> = Tasks.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id == %@", task.id)
+        do {
+            if let fetchedTask = try context.fetch(fetchRequest).first {
+                fetchedTask.colorCate = task.colorCate
+                fetchedTask.date = task.date
+                fetchedTask.descrip = task.descrip
+                fetchedTask.imagecate = task.imagecate
+                fetchedTask.lastUpdated = task.lastUpdated
+                fetchedTask.priority = task.priority
+                fetchedTask.status = task.status
+                fetchedTask.tag = task.tag
+                fetchedTask.title = task.title
+                fetchedTask.isdeleted = task.isdeleted
+                try context.save()
+            }
+        } catch let error as NSError {
+            print("Could not update CoreData task. \(error), \(error.userInfo)")
         }
     }
 
-    func updateTaskInCoreData(_ task: Task) {
-           let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-           let fetchRequest: NSFetchRequest<Tasks> = Tasks.fetchRequest()
-           fetchRequest.predicate = NSPredicate(format: "id == %@", task.id)
-           do {
-               if let fetchedTask = try context.fetch(fetchRequest).first {
-                   fetchedTask.colorCate = task.colorCate
-                   fetchedTask.date = task.date
-                   fetchedTask.descrip = task.descrip
-                   fetchedTask.imagecate = task.imagecate
-                   fetchedTask.lastUpdated = task.lastUpdated
-                   fetchedTask.priority = task.priority
-                   fetchedTask.status = task.status
-                   fetchedTask.tag = task.tag
-                   fetchedTask.title = task.title
-                   fetchedTask.isdeleted = task.isdeleted
-                   try context.save()
-               }
-           } catch let error as NSError {
-               print("Could not update CoreData task. \(error), \(error.userInfo)")
-           }
-       }
+    func updateTaskInFirebase(_ task: Task) {
+        let db = Firestore.firestore()
+        let taskId = task.id.replacingOccurrences(of: "/", with: "_")
+        let taskData: [String: Any] = [
+            "colorCate": task.colorCate,
+            "date": task.date,
+            "descrip": task.descrip,
+            "imagecate": task.imagecate,
+            "lastUpdated": task.lastUpdated,
+            "priority": task.priority,
+            "status": task.status,
+            "tag": task.tag,
+            "title": task.title,
+            "isdeleted": task.isdeleted
+        ]
+        var safeEmail = (UserDefaults.standard.string(forKey: "email") ?? "___").replacingSpecialCharacters()
+        db.collection("\(safeEmail)").document(taskId).setData(taskData) { error in
+            if let error = error {
+                print("Could not update Firebase task. \(error.localizedDescription)")
+            }
+        }
+    }
 
-       func updateTaskInFirebase(_ task: Task) {
-           let db = Firestore.firestore()
-           let taskId = task.id.replacingOccurrences(of: "/", with: "_")
-           let taskData: [String: Any] = [
-               "colorCate": task.colorCate,
-               "date": task.date,
-               "descrip": task.descrip,
-               "imagecate": task.imagecate,
-               "lastUpdated": task.lastUpdated,
-               "priority": task.priority,
-               "status": task.status,
-               "tag": task.tag,
-               "title": task.title,
-               "isdeleted": task.isdeleted
-           ]
-           db.collection("\(safeEmail)").document(taskId).setData(taskData) { error in
-               if let error = error {
-                   print("Could not update Firebase task. \(error.localizedDescription)")
-               }
-           }
-       }
+    func saveTaskToCoreData(_ task: Task) {
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        let fetchRequest: NSFetchRequest<Tasks> = Tasks.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id == %@", task.id)
+        
+        do {
+            let existingTasks = try context.fetch(fetchRequest)
+            if let existingTask = existingTasks.first {
+                // Đối tượng đã tồn tại trong Core Data, cập nhật thuộc tính của nó
+                existingTask.colorCate = task.colorCate
+                existingTask.date = task.date
+                existingTask.descrip = task.descrip
+                existingTask.imagecate = task.imagecate
+                existingTask.lastUpdated = task.lastUpdated
+                existingTask.priority = task.priority
+                existingTask.status = task.status
+                existingTask.tag = task.tag
+                existingTask.title = task.title
+                existingTask.isdeleted = task.isdeleted
+            } else {
+                // Đối tượng chưa tồn tại trong Core Data, tạo mới và lưu
+                let newTask = Tasks(context: context)
+                newTask.id = task.id
+                newTask.colorCate = task.colorCate
+                newTask.date = task.date
+                newTask.descrip = task.descrip
+                newTask.imagecate = task.imagecate
+                newTask.lastUpdated = task.lastUpdated
+                newTask.priority = task.priority
+                newTask.status = task.status
+                newTask.tag = task.tag
+                newTask.title = task.title
+                newTask.isdeleted = task.isdeleted
+            }
+            
+            // Lưu context
+            try context.save()
+        } catch let error as NSError {
+            print("Could not save CoreData task. \(error), \(error.userInfo)")
+        }
+    }
 
-       func saveTaskToCoreData(_ task: Task) {
-           let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-           let newTask = Tasks(context: context)
-           newTask.id = task.id
-           newTask.colorCate = task.colorCate
-           newTask.date = task.date
-           newTask.descrip = task.descrip
-           newTask.imagecate = task.imagecate
-           newTask.lastUpdated = task.lastUpdated
-           newTask.priority = task.priority
-           newTask.status = task.status
-           newTask.tag = task.tag
-           newTask.title = task.title
-           newTask.isdeleted = task.isdeleted
-           do {
-               try context.save()
-           } catch let error as NSError {
-               print("Could not save CoreData task. \(error), \(error.userInfo)")
-           }
-       }
 
-       func saveTaskToFirebase(_ task: Task) {
-           let db = Firestore.firestore()
-           let taskId = task.id.replacingOccurrences(of: "/", with: "_")
-           let taskData: [String: Any] = [
-               "colorCate": task.colorCate,
-               "date": task.date,
-               "descrip": task.descrip,
-               "imagecate": task.imagecate,
-               "lastUpdated": task.lastUpdated,
-               "priority": task.priority,
-               "status": task.status,
-               "tag": task.tag,
-               "title": task.title,
-               "isdeleted": task.isdeleted
-           ]
-           db.collection("\(safeEmail)").document(taskId).setData(taskData) { error in
-               if let error = error {
-                   print("Could not save Firebase task. \(error.localizedDescription)")
-               }
-           }
-       }
-   
+    func saveTaskToFirebase(_ task: Task) {
+        let db = Firestore.firestore()
+        let taskId = task.id.replacingOccurrences(of: "/", with: "_")
+        let taskData: [String: Any] = [
+            "colorCate": task.colorCate,
+            "date": task.date,
+            "descrip": task.descrip,
+            "imagecate": task.imagecate,
+            "lastUpdated": task.lastUpdated,
+            "priority": task.priority,
+            "status": task.status,
+            "tag": task.tag,
+            "title": task.title,
+            "isdeleted": task.isdeleted
+        ]
+        var safeEmail = (UserDefaults.standard.string(forKey: "email") ?? "___").replacingSpecialCharacters()
+        db.collection("\(safeEmail)").document(taskId).setData(taskData) { error in
+            if let error = error {
+                print("Could not save Firebase task. \(error.localizedDescription)")
+            }
+        }
+    }
+
+    
             
     
     func deleteAllData() {
@@ -339,7 +384,8 @@ class HomeViewModel{
             "imagecate": task.imagecate,
             "lastUpdated": task.lastUpdated
         ]
-        
+        var safeEmail = (UserDefaults.standard.string(forKey: "email") ?? "___").replacingSpecialCharacters()
+        print(safeEmail)
         // Thực hiện cập nhật dữ liệu của nhiệm vụ trong Firestore
         db.collection("\(safeEmail)").document(taskId).setData(updatedData, merge: true) { error in
             if let error = error {
@@ -370,7 +416,7 @@ class HomeViewModel{
                 guard let actionType = syncAction.actionType, let taskId = syncAction.taskId else { continue }
                 
                 if actionType == "delete" {
-                    
+                    var safeEmail = (UserDefaults.standard.string(forKey: "email") ?? "___").replacingSpecialCharacters()
                     db.collection("\(safeEmail)").document(taskId).updateData(["isdeleted": true]) { error in
                         if let error = error {
                             print("Error updating document: \(error)")
@@ -399,6 +445,7 @@ class HomeViewModel{
                                 "lastUpdated": taskToAdd.lastUpdated ?? Date(),
                                 "isdeleted": taskToAdd.isdeleted ?? false
                             ]
+                            var safeEmail = (UserDefaults.standard.string(forKey: "email") ?? "___").replacingSpecialCharacters()
                             db.collection("\(safeEmail)").document(taskId.replacingOccurrences(of: "/", with: "_")).setData(data) { error in
                                 if let error = error {
                                     print("Error adding document to Firebase: \(error)")
@@ -435,6 +482,7 @@ class HomeViewModel{
                                 "imagecate": taskToAdd.imagecate ?? "",
                                 "lastUpdated": taskToAdd.lastUpdated ?? Date()
                             ]
+                            var safeEmail = (UserDefaults.standard.string(forKey: "email") ?? "___").replacingSpecialCharacters()
                             db.collection("\(safeEmail)").document(taskId.replacingOccurrences(of: "/", with: "_")).setData(data) { error in
                                 if let error = error {
                                     print("Error adding document to Firebase: \(error)")
@@ -487,7 +535,8 @@ class HomeViewModel{
                     print("Network connected")
                     let db = Firestore.firestore()
                     print("taskID for Firebase: \(firebaseTaskId)")
-                    db.collection("tasks").document(firebaseTaskId).updateData(["isdeleted": true]) { error in
+                    var safeEmail = (UserDefaults.standard.string(forKey: "email") ?? "___").replacingSpecialCharacters()
+                    db.collection("\(safeEmail)").document(firebaseTaskId).updateData(["isdeleted": true]) { error in
                         if let error = error {
                             print("Error updating document: \(error)")
                         } else {

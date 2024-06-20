@@ -358,7 +358,9 @@ class NewPostViewController: UIViewController, UIGestureRecognizerDelegate {
         ]
      
 
-        let email = (UserDefaults.standard.string(forKey: "email") ?? "").replacingSpecialCharacters()
+        let email = (UserDefaults.standard.string(forKey: "email") ?? "___").replacingSpecialCharacters()
+        print(email)
+        
         db.collection("\(email)").document(taskIdFirebase ?? "").setData(data) { error in
             if let error = error {
                 print("Error writing document: \(error)")

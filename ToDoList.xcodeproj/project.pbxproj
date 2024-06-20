@@ -31,7 +31,6 @@
 		11719BA42C1AB0910019F548 /* ReminderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11719BA32C1AB0910019F548 /* ReminderManager.swift */; };
 		1172D15F2BFC805D00C1C2C7 /* ColorCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1172D15E2BFC805D00C1C2C7 /* ColorCollectionViewCell.xib */; };
 		1172D1602BFC805D00C1C2C7 /* ColorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1172D15D2BFC805D00C1C2C7 /* ColorCollectionViewCell.swift */; };
-		1183B4142C201A370045B65F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1183B4132C201A370045B65F /* GoogleService-Info.plist */; };
 		1184C26B2BEB626500317BE4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1184C26A2BEB626500317BE4 /* AppDelegate.swift */; };
 		1184C26D2BEB626500317BE4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1184C26C2BEB626500317BE4 /* SceneDelegate.swift */; };
 		1184C26F2BEB626500317BE4 /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1184C26E2BEB626500317BE4 /* HomeController.swift */; };
@@ -47,6 +46,8 @@
 		1185AC3A2BFADDCD004388D2 /* CategoryViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1185AC392BFADDCD004388D2 /* CategoryViewFlowLayout.swift */; };
 		1185AC3D2BFADE5C004388D2 /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1185AC3B2BFADE5C004388D2 /* CategoryCollectionViewCell.swift */; };
 		1185AC3E2BFADE5C004388D2 /* CategoryCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1185AC3C2BFADE5C004388D2 /* CategoryCollectionViewCell.xib */; };
+		119B38082C214499009CA134 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 119B38072C214499009CA134 /* GoogleService-Info.plist */; };
+		119B380A2C21489D009CA134 /* KeychainItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119B38092C21489D009CA134 /* KeychainItem.swift */; };
 		119BA5E42C1177C40047B309 /* HeaderViewForCalendar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 119BA5E32C1177C40047B309 /* HeaderViewForCalendar.xib */; };
 		119BA5E82C1196200047B309 /* HeaderViewForCalendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119BA5E72C1196200047B309 /* HeaderViewForCalendar.swift */; };
 		119BA5EF2C11C1CC0047B309 /* HeaderProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119BA5EE2C11C1CC0047B309 /* HeaderProfileView.swift */; };
@@ -87,6 +88,7 @@
 
 /* Begin PBXFileReference section */
 		0127320B7A24EA769D7A1D4E /* Pods-ToDoList.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ToDoList.debug.xcconfig"; path = "Target Support Files/Pods-ToDoList/Pods-ToDoList.debug.xcconfig"; sourceTree = "<group>"; };
+		0629308D2C218E58004B0FE2 /* ToDoList.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ToDoList.entitlements; sourceTree = "<group>"; };
 		0F4AC841F9AE2D6551EBD8F4 /* Pods_ToDoList.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ToDoList.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		110CD7B42C20336F00B22830 /* ToDoListRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ToDoListRelease.entitlements; sourceTree = "<group>"; };
 		111F6E482C1C23DC00ACE91B /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
@@ -113,7 +115,6 @@
 		11719BA32C1AB0910019F548 /* ReminderManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderManager.swift; sourceTree = "<group>"; };
 		1172D15D2BFC805D00C1C2C7 /* ColorCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCollectionViewCell.swift; sourceTree = "<group>"; };
 		1172D15E2BFC805D00C1C2C7 /* ColorCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ColorCollectionViewCell.xib; sourceTree = "<group>"; };
-		1183B4132C201A370045B65F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1184C2672BEB626500317BE4 /* ToDoList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToDoList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1184C26A2BEB626500317BE4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1184C26C2BEB626500317BE4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -132,6 +133,8 @@
 		1185AC392BFADDCD004388D2 /* CategoryViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewFlowLayout.swift; sourceTree = "<group>"; };
 		1185AC3B2BFADE5C004388D2 /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		1185AC3C2BFADE5C004388D2 /* CategoryCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoryCollectionViewCell.xib; sourceTree = "<group>"; };
+		119B38072C214499009CA134 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		119B38092C21489D009CA134 /* KeychainItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainItem.swift; sourceTree = "<group>"; };
 		119BA5E32C1177C40047B309 /* HeaderViewForCalendar.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HeaderViewForCalendar.xib; sourceTree = "<group>"; };
 		119BA5E72C1196200047B309 /* HeaderViewForCalendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderViewForCalendar.swift; sourceTree = "<group>"; };
 		119BA5EE2C11C1CC0047B309 /* HeaderProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderProfileView.swift; sourceTree = "<group>"; };
@@ -215,6 +218,7 @@
 			children = (
 				1131CFBD2C0AED8100839136 /* HomeViewModel.swift */,
 				11719BA32C1AB0910019F548 /* ReminderManager.swift */,
+				119B38092C21489D009CA134 /* KeychainItem.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -314,6 +318,7 @@
 		1184C2692BEB626500317BE4 /* ToDoList */ = {
 			isa = PBXGroup;
 			children = (
+				0629308D2C218E58004B0FE2 /* ToDoList.entitlements */,
 				110CD7B42C20336F00B22830 /* ToDoListRelease.entitlements */,
 				11E29B952BF1FD280081B5DD /* Resource */,
 				11E29B8D2BF1EA830081B5DD /* NibCell */,
@@ -322,7 +327,7 @@
 				1184C2782BEB626700317BE4 /* LaunchScreen.storyboard */,
 				1184C2762BEB626700317BE4 /* Assets.xcassets */,
 				1184C27B2BEB626700317BE4 /* Info.plist */,
-				1183B4132C201A370045B65F /* GoogleService-Info.plist */,
+				119B38072C214499009CA134 /* GoogleService-Info.plist */,
 				1184C2732BEB626500317BE4 /* ToDoList.xcdatamodeld */,
 			);
 			path = ToDoList;
@@ -609,9 +614,9 @@
 				116959A22C045E6200D3D077 /* TaskTableViewCell.xib in Resources */,
 				11C153102C0C84460090F79E /* EditTaskHeaderView.xib in Resources */,
 				114BE8892C0ED143004DF35B /* EditCalenderView.xib in Resources */,
-				1183B4142C201A370045B65F /* GoogleService-Info.plist in Resources */,
 				11E29B942BF1EB190081B5DD /* CalendarDayCVC.xib in Resources */,
 				1172D15F2BFC805D00C1C2C7 /* ColorCollectionViewCell.xib in Resources */,
+				119B38082C214499009CA134 /* GoogleService-Info.plist in Resources */,
 				116959AF2C05BC7300D3D077 /* ProfileTableViewCell.xib in Resources */,
 				119BA6142C1299630047B309 /* OnBoardViewController.xib in Resources */,
 				119BA5E42C1177C40047B309 /* HeaderViewForCalendar.xib in Resources */,
@@ -697,6 +702,7 @@
 				1131CFBE2C0AED8100839136 /* HomeViewModel.swift in Sources */,
 				1185AC3A2BFADDCD004388D2 /* CategoryViewFlowLayout.swift in Sources */,
 				11C153142C0C84FB0090F79E /* EditTaskHeaderView.swift in Sources */,
+				119B380A2C21489D009CA134 /* KeychainItem.swift in Sources */,
 				119BA6192C12E12C0047B309 /* RegisterViewController.swift in Sources */,
 				11C153192C0D71260090F79E /* DeleteTaskView.swift in Sources */,
 				1184C2842BEB675300317BE4 /* CustomTabBarController.swift in Sources */,
@@ -869,6 +875,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ToDoList/ToDoList.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = N2AZ5MXD3Y;
@@ -888,7 +895,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = phamhongson.ToDoList;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bhsoft.TaskManagement;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

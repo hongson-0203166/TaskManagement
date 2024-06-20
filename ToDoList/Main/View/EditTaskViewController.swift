@@ -225,18 +225,17 @@ class EditTaskViewController: UIViewController {
     @objc func acceptTitleAndDes(){
         
         
-        if ((titleTask?.isEmpty) == nil) || ((descriptionTask?.isEmpty) == nil){
-            print("Fill format text in textField")
-            titleTask = editTitleTaskView.editTitleTextField.placeholder
-            descriptionTask = editTitleTaskView.editDescriptionTextField.placeholder
-           
+        if (editTitleTaskView.editTitleTextField.text == "") || (editTitleTaskView.editDescriptionTextField.text == ""){
+            
         }else{
-           
             titleTask =  editTitleTaskView.editTitleTextField.text
             descriptionTask = editTitleTaskView.editDescriptionTextField.text
+            
+            headerView?.titleTaskLable.text = titleTask ?? ""
+            headerView?.descriptionTaskLable.text = descriptionTask ?? ""
         }
-        headerView?.titleTaskLable.text = titleTask ?? ""
-        headerView?.descriptionTaskLable.text = descriptionTask ?? ""
+//        headerView?.titleTaskLable.text = titleTask ?? ""
+//        headerView?.descriptionTaskLable.text = descriptionTask ?? ""
         
         print("titleTask: \(titleTask)")
         print("descriptionTask: \(descriptionTask)")
@@ -304,6 +303,8 @@ class EditTaskViewController: UIViewController {
         editCarlendarView.isHidden = true
         blurEffectView?.isHidden = true
         editTimeView.isHidden = true
+        editTitleTaskView.editTitleTextField.resignFirstResponder()
+        editTitleTaskView.editDescriptionTextField.resignFirstResponder()
     }
     
   

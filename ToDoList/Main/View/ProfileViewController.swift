@@ -10,6 +10,7 @@ import SnapKit
 import Kingfisher
 import FirebaseAuth
 import GoogleSignIn
+import AuthenticationServices
 
 class ProfileViewController: UIViewController, UIGestureRecognizerDelegate {
 
@@ -65,7 +66,7 @@ class ProfileViewController: UIViewController, UIGestureRecognizerDelegate {
         
         tableView.register(UINib(nibName: "ProfileTableViewCell", bundle: nil), forCellReuseIdentifier: "ProfileTableViewCell")
         self.navigationController?.isNavigationBarHidden = true
-        print(self.tabBarController?.getHeight())
+      //  print(self.tabBarController?.getHeight())
         setupChangeAccountName()
         setupChangeAccountPass()
         setupChangeAccountImage()
@@ -107,8 +108,62 @@ class ProfileViewController: UIViewController, UIGestureRecognizerDelegate {
             
         }
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        guard let currentUser = Auth.auth().currentUser else {
+               return
+           }
+
+           let email = currentUser.email
+        let name = Auth.auth().currentUser?.displayName
+//        UserDefaults.standard.setValue(name, forKey: "nameProfile")
+        
+        UserDefaults.standard.setValue(email, forKey: "email")
+           let displayName = currentUser.displayName
+        
+        
+       
+        print(displayName)
+        
+        if NetworkMonitor.shared.isConnected {
+                    ProfileManager.shared.downloadFile { results in
+                        switch results {
+            
+                            case .success(let url):
+                                print("URL: \(url)")
+            
+                            self.headerProfileView.profileImage.kf.setImage(with: URL(string: "\(url)"))
+            
+                            
+                            case .failure(let error):
+                                print("Upload error: \(error)")
+                            self.headerProfileView.profileImage.image = UIImage(named: "Mask group")
+                        }
+                    }
+            
+            headerProfileView.fullNameProfile.text = Auth.auth().currentUser?.displayName ?? ""
+        }else{
+            
+            if let urlString = UserDefaults.standard.string(forKey: "profilePicture") {
+                if let url = URL(string: urlString) {
+                    // Sử dụng biến url tại đây
+                    self.headerProfileView.profileImage.kf.setImage(with: URL(string: "\(url)"))
+                } else {
+                    print("URL string không hợp lệ")
+                }
+            } else {
+                print("Không tìm thấy URL trong UserDefaults")
+                
+            }
+
+            headerProfileView.fullNameProfile.text = UserDefaults.standard.string(forKey: "nameProfile")
+            
+        }
+    }
+    
     func checklogin(){
         if Auth.auth().currentUser != nil {
+            UserDefaults.standard.setValue(Auth.auth().currentUser?.email, forKey: "email")
                 print("User logged in")
               } else {
                   print("User")
@@ -179,6 +234,10 @@ class ProfileViewController: UIViewController, UIGestureRecognizerDelegate {
         
         cancelChangePasswordButton.addTarget(self, action: #selector(cancelChangeAccountName), for: .touchUpInside)
         editChangePasswordButton.addTarget(self, action: #selector(editHandleChangeAccountName), for: .touchUpInside)
+        
+        changeAccountTextField.keyboardAppearance = .dark
+        changeAccountPasswordTextField.keyboardAppearance = .dark
+        changeAccountNewTextField.keyboardAppearance = .dark
     }
     
     func setupChangeAccountImage(){
@@ -198,17 +257,42 @@ class ProfileViewController: UIViewController, UIGestureRecognizerDelegate {
     @objc func cancelChangeAccountName(){
         changeAccountNameView.isHidden = true
         changeAccountPassword.isHidden = true
-       
+        changeAccountTextField.resignFirstResponder()
+        changeAccountPasswordTextField.resignFirstResponder()
+        changeAccountNewTextField.resignFirstResponder()
     }
     @objc func editChangeAccountName(){
+        if changeAccountTextField.text == ""{
+            
+        }else{
+            changeProfileName()
+        }
         changeAccountNameView.isHidden = true
-        changeProfileName()
+        //changeProfileName()
+        changeAccountTextField.resignFirstResponder()
+        changeAccountPasswordTextField.resignFirstResponder()
+        changeAccountNewTextField.resignFirstResponder()
     }
     
     @objc func editHandleChangeAccountName(){
         
         changeAccountPassword.isHidden = true
-        changePassword(oldPassword: changeAccountPasswordTextField.text ?? "", newPassword: changeAccountNewTextField.text ?? "")
+        if NetworkMonitor.shared.isConnected {
+            changePassword(oldPassword: changeAccountPasswordTextField.text ?? "", newPassword: changeAccountNewTextField.text ?? "")
+        }else{
+            print("Don't connect internet")
+            getError(messeage: "Don't connect internet")
+        }
+        
+        changeAccountTextField.resignFirstResponder()
+        changeAccountPasswordTextField.resignFirstResponder()
+        changeAccountNewTextField.resignFirstResponder()
+    }
+    func getError(messeage: String){
+        let alertControl = UIAlertController(title: "Error", message: messeage, preferredStyle: .alert)
+        let alertAction = UIAlertAction(title: "Ok", style: .cancel)
+        alertControl.addAction(alertAction)
+        present(alertControl, animated: true)
     }
 }
 extension ProfileViewController: UITableViewDelegate, UITableViewDataSource{
@@ -253,9 +337,10 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource{
             
             if row == 0{
                 changeAccountNameView.isHidden = false
+                changeAccountTextField.becomeFirstResponder()
             }else if row == 1{
                 changeAccountPassword.isHidden = false
-               
+                changeAccountPasswordTextField.becomeFirstResponder()
             }else{
                 changeAccountImage.isHidden = false
                 DispatchQueue.main.asyncAfter(deadline: .now()) { [weak self] in
@@ -268,8 +353,12 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource{
             
             if row == 4 {
                 viewModle.deleteAllData()
+                print(viewModle.fetchTasks())
                 UserDefaults.standard.removeObject(forKey: "profilePicture")
                 UserDefaults.standard.removeObject(forKey: "nameProfile")
+                //UserDefaults.standard.removeObject(forKey: "email")
+                KeychainItem.deleteUserIdentifierFromKeychain()
+              
                 
                 signout()
                 checklogin()
@@ -277,88 +366,103 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource{
         }
         
     }
+
     func changePassword(oldPassword: String, newPassword: String) {
-        let signInStyle = UserDefaults.standard.string(forKey: "signInStyle")
-        
+        let signInStyle = UserDefaults.standard.string(forKey: "signInStyle") ?? ""
+
         guard let user = Auth.auth().currentUser, let email = user.email else {
             print("Người dùng không hợp lệ hoặc không có email")
             return
         }
-        switch "google"{
+        
+        switch signInStyle {
         case "email":
-           
-            // Tạo thông tin xác thực
+            print("email")
             let credential = EmailAuthProvider.credential(withEmail: email, password: oldPassword)
             
-            // Tái xác thực người dùng
             user.reauthenticate(with: credential) { authResult, error in
                 if let error = error {
                     print("Lỗi khi tái xác thực: \(error.localizedDescription)")
                     return
                 }
-                
-                // Cập nhật mật khẩu
-                user.updatePassword(to: newPassword) { error in
-                    if let error = error {
-                        print("Lỗi khi cập nhật mật khẩu: \(error.localizedDescription)")
-                        return
-                    }
-                }
+                self.updatePassword(for: user, newPassword: newPassword)
             }
-            
+            changeAccountTextField.resignFirstResponder()
+            changeAccountPasswordTextField.resignFirstResponder()
+            changeAccountNewTextField.resignFirstResponder()
         case "google":
-            
-            let googleUser = GIDSignIn.sharedInstance.currentUser
-            guard let idToken = googleUser?.idToken?.tokenString else{
+            print("google")
+            self.getError(messeage: "Did sign in with google")
+            changeAccountTextField.resignFirstResponder()
+            changeAccountPasswordTextField.resignFirstResponder()
+            changeAccountNewTextField.resignFirstResponder()
+//            let googleUser = GIDSignIn.sharedInstance.currentUser
+//            guard let idToken = googleUser?.idToken?.tokenString, let accessToken = googleUser?.accessToken.tokenString else {
+//                print("Lỗi khi lấy mã thông báo của Google")
+//                return
+//            }
+//            
+//            let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: accessToken)
+//            
+//            user.reauthenticate(with: credential) { authResult, error in
+//                if let error = error {
+//                    print("Lỗi khi tái xác thực với Google: \(error.localizedDescription)")
+//                    return
+//                }
+//                self.updatePassword(for: user, newPassword: newPassword)
+//            }
+
+        case "apple":
+            print("apple")
+            self.getError(messeage: "Did sign in with apple")
+            changeAccountTextField.resignFirstResponder()
+            changeAccountPasswordTextField.resignFirstResponder()
+            changeAccountNewTextField.resignFirstResponder()
+            // Re-authenticate using Apple Sign-In
+//            let appleIDProvider = ASAuthorizationAppleIDProvider()
+//            appleIDProvider.getCredentialState(forUserID: user.uid) { (credentialState, error) in
+//                if let error = error {
+//                    print("Lỗi khi lấy trạng thái thông tin xác thực của Apple: \(error.localizedDescription)")
+//                    return
+//                }
+//                switch credentialState {
+//                case .authorized:
+//                    let idToken = UserDefaults.standard.string(forKey: "idToken")
+//                    let rawNonce = UserDefaults.standard.string(forKey: "rawNonce") ?? ""
+//                    if let appleIDToken = idToken {
+//                        let credential = OAuthProvider.credential(withProviderID: "apple.com", idToken: appleIDToken, rawNonce: rawNonce)
+//                        
+//                        user.reauthenticate(with: credential) { authResult, error in
+//                            if let error = error {
+//                                print("Lỗi khi tái xác thực với Apple: \(error.localizedDescription)")
+//                                return
+//                            }
+//                            self.updatePassword(for: user, newPassword: newPassword)
+//                        }
+//                    } else {
+//                        print("Không thể lấy mã thông báo của Apple ID")
+//                    }
+//                case .revoked, .notFound:
+//                    print("Thông tin xác thực của Apple bị thu hồi hoặc không tìm thấy")
+//                default:
+//                    break
+//                }
+//            }
+//
+        default:
+            print("Không hỗ trợ kiểu đăng nhập này")
+        }
+    }
+    func updatePassword(for user: User, newPassword: String) {
+        user.updatePassword(to: newPassword) { error in
+            if let error = error {
+                print("Lỗi khi cập nhật mật khẩu: \(error.localizedDescription)")
                 return
             }
-            let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: (googleUser?.accessToken.tokenString)!)
-            user.reauthenticate(with: credential) { (authResult, error) in
-                       if let error = error {
-                           // Handle re-authentication error
-                           print("Re-authentication with Google failed: \(error.localizedDescription)")
-                           return
-                       }
-
-                       // Re-authenticate the user with their old password
-                       let email = user.email ?? ""
-                       let passwordCredential = EmailAuthProvider.credential(withEmail: email, password: oldPassword)
-
-                       user.reauthenticate(with: passwordCredential) { (authResult, error) in
-                           if let error = error {
-                               // Handle re-authentication error
-                               print("Re-authentication with old password failed: \(error.localizedDescription)")
-                               return
-                           }
-
-                           // Update the password to the new password
-                           user.updatePassword(to: newPassword) { (error) in
-                               if let error = error {
-                                   // Handle password update error
-                                   print("Password update failed: \(error.localizedDescription)")
-                                   return
-                               }
-                               print("Password updated successfully")
-                           }
-                       }
-                   }
-            break
-        case "apple":
-            
-            break
-        default:
-            break
+            UserDefaults.standard.set(newPassword, forKey: "password")
+            print("Cập nhật mật khẩu thành công")
         }
-      
-        
-     
-                
-                // Cập nhật mật khẩu mới vào UserDefaults
-                UserDefaults.standard.set(newPassword, forKey: "password")
-                print("Cập nhật mật khẩu thành công")
-            
     }
-    
     
     func changeProfileName(){
         let user = Auth.auth().currentUser

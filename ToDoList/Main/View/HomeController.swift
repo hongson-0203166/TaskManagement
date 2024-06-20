@@ -38,35 +38,77 @@ class HomeController: UIViewController  {
         taskTableView.rowHeight = UITableView.automaticDimension
         taskTableView.delegate = self
         taskTableView.dataSource = self
-
+        checklogin()
         setSearchButton()
+        
+        
+        
+        //viewModel.safeEmail  = (UserDefaults.standard.string(forKey: "email") ?? "son").replacingSpecialCharacters()
+        
+        
         NotificationCenter.default.addObserver(self, selector: #selector(handleTaskUpdated(_:)), name: .taskUpdated, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(syncPendingActions(_:)), name: .syncPendingActions, object: nil)
-            //viewModel.tasks = viewModel.fetchTasks()
-            print("Device is not connected to the internet.")
+//        NotificationCenter.default.addObserver(self, selector: #selector(syncPendingActions(_:)), name: .syncPendingActions, object: nil)
+//            //viewModel.tasks = viewModel.fetchTasks()
+//            print("Device is not connected to the internet.")
         NotificationCenter.default.addObserver(self, selector: #selector(showOfflineDeviceUI(notification:)), name: NSNotification.Name.connectivityStatus, object: nil)
         //signout()
-        //viewModel.deleteAllData()
-        if NetworkMonitor.shared.isConnected{
+       //viewModel.deleteAllData()
+       if NetworkMonitor.shared.isConnected{
             viewModel.syncPendingActions()
-            viewModel.synchronizeTasks()
+//           viewModel.synchronizeTasks { task in
+//               self.viewModel.tasks = task.filter{ !$0.isdeleted }
+//           }
+           viewModel.synchronizeTasks { syncedTasks in
+               // Sử dụng dữ liệu đã đồng bộ
+               self.viewModel.tasks = syncedTasks
+               if self.viewModel.tasks.count == 0{
+                   self.emptyImageView.isHidden = false
+               }else{
+                   self.emptyImageView.isHidden = true
+               }
+               //   viewModel.filterTask()
+               self.taskTableView.reloadData()
+               print(syncedTasks)
+           }
         }
         viewModel.tasks = viewModel.fetchTasks()
+        DispatchQueue.main.async {
+            if self.viewModel.tasks.count == 0{
+                self.emptyImageView.isHidden = false
+            }else{
+                self.emptyImageView.isHidden = true
+            }
+            //   viewModel.filterTask()
+            self.taskTableView.reloadData()
+        }
+     
+        print(viewModel.tasks)
+  
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+//        print(UserDefaults.standard.string(forKey: "email"))
         checklogin()
-       
+        //viewModel.safeEmail  = (UserDefaults.standard.string(forKey: "email") ?? "").replacingSpecialCharacters()
         if NetworkMonitor.shared.isConnected{
-            viewModel.syncPendingActions()
-            viewModel.synchronizeTasks()
-        }
+             viewModel.syncPendingActions()
+            viewModel.synchronizeTasks { syncedTasks in
+                // Sử dụng dữ liệu đã đồng bộ
+                self.viewModel.tasks = syncedTasks
+                
+                if self.viewModel.tasks.count == 0{
+                    self.emptyImageView.isHidden = false
+                }else{
+                    self.emptyImageView.isHidden = true
+                }
+                self.taskTableView.reloadData()
+            }
+         }
        
         viewModel.tasks = viewModel.fetchTasks()
-//       
-        print(viewModel.tasks)
+//
+        
         DispatchQueue.main.async {
             if self.viewModel.tasks.count == 0{
                 self.emptyImageView.isHidden = false
@@ -78,6 +120,7 @@ class HomeController: UIViewController  {
         }
         
         reminderManager.syncTasksWithReminders()
+        print(viewModel.tasks)
         
     }
     
@@ -102,9 +145,12 @@ class HomeController: UIViewController  {
         
         if NetworkMonitor.shared.isConnected {
             print("Connected")
-                viewModel.syncPendingActions()
-                viewModel.synchronizeTasks()
-                viewModel.tasks = viewModel.fetchTasks()
+       
+                 viewModel.syncPendingActions()
+                viewModel.synchronizeTasks { task in
+                    self.viewModel.tasks = task
+                }
+             
 
             DispatchQueue.main.async {
                 if self.viewModel.tasks.count == 0{
@@ -121,10 +167,11 @@ class HomeController: UIViewController  {
     }
    @objc func syncPendingActions(_ notification: Notification){
        if NetworkMonitor.shared.isConnected{
-           viewModel.syncPendingActions()
-           viewModel.synchronizeTasks()
-           viewModel.tasks = viewModel.fetchTasks()
-       }
+            viewModel.syncPendingActions()
+           viewModel.synchronizeTasks { task in
+               self.viewModel.tasks = task.filter{ !$0.isdeleted }
+           }
+        }
        DispatchQueue.main.async {
            if self.viewModel.tasks.count == 0{
                self.emptyImageView.isHidden = false
@@ -142,12 +189,16 @@ class HomeController: UIViewController  {
     
 
     func checklogin(){
+        
         if Auth.auth().currentUser != nil {
+            let email = Auth.auth().currentUser?.email
+            UserDefaults.standard.setValue(email, forKey: "email")
+            print(email)
                 print("User logged in")
               } else {
                   print("User")
                   let storyb = storyboard?.instantiateViewController(identifier: "LoginViewController") as! LoginViewController
-                  let navi = UINavigationController(rootViewController:storyb )
+                  let navi = UINavigationController(rootViewController:storyb)
                   navi.modalPresentationStyle = .fullScreen
                   present(navi, animated: true)
               }

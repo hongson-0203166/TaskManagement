@@ -2,10 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.664887330925-rj48t6r7tlqkrgbioao2khdob22vll69</string>
 	<key>CLIENT_ID</key>
-	<string>664887330925-rj48t6r7tlqkrgbioao2khdob22vll69.apps.googleusercontent.com</string>
+	<string>664887330925-3kldmdheb9p8ojst5vs7i8u8p81rmcoe.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.664887330925-3kldmdheb9p8ojst5vs7i8u8p81rmcoe</string>
 	<key>API_KEY</key>
 	<string>AIzaSyA-kOVonvmov2XVEI28nuiqFjm2zMBjhAA</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,22 +13,22 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>phamhongson.ToDoList</string>
+	<string>com.bhsoft.TaskManagement</string>
 	<key>PROJECT_ID</key>
 	<string>tasks-managerment</string>
 	<key>STORAGE_BUCKET</key>
 	<string>tasks-managerment.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_APPINVITE_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>IS_GCM_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:664887330925:ios:987e77ee5a30cf8ae1d764</string>
+	<string>1:664887330925:ios:0c9b94a00cf39c75e1d764</string>
 </dict>
 </plist>
